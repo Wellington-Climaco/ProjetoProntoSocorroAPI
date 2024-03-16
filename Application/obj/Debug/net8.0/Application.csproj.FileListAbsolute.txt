@@ -1,0 +1,15 @@
+C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Application.deps.json
+C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Application.dll
+C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Application.pdb
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.AssemblyInfoInputs.cache
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.AssemblyInfo.cs
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.csproj.CoreCompileInputs.cache
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.dll
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\refint\Application.dll
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.pdb
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\ref\Application.dll
+C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Domain.dll
+C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Domain.pdb
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.csproj.AssemblyReference.cache
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.csproj.CopyComplete

@@ -1,0 +1,11 @@
+C:\dev\ProntoSocorroApp\Domain\bin\Debug\net8.0\Domain.deps.json
+C:\dev\ProntoSocorroApp\Domain\bin\Debug\net8.0\Domain.dll
+C:\dev\ProntoSocorroApp\Domain\bin\Debug\net8.0\Domain.pdb
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.AssemblyInfoInputs.cache
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.AssemblyInfo.cs
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.csproj.CoreCompileInputs.cache
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.dll
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\refint\Domain.dll
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\Domain.pdb
+C:\dev\ProntoSocorroApp\Domain\obj\Debug\net8.0\ref\Domain.dll
