@@ -13,3 +13,4 @@ C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Domain.dll
 C:\dev\ProntoSocorroApp\Application\bin\Debug\net8.0\Domain.pdb
 C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.csproj.AssemblyReference.cache
 C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.csproj.CopyComplete
+C:\dev\ProntoSocorroApp\Application\obj\Debug\net8.0\Application.sourcelink.json

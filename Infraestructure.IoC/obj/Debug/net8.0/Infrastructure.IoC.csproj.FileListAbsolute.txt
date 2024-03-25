@@ -19,3 +19,4 @@ C:\dev\ProntoSocorroApp\Infraestructure.IoC\obj\Debug\net8.0\Infrastructure.IoC.
 C:\dev\ProntoSocorroApp\Infraestructure.IoC\obj\Debug\net8.0\ref\Infrastructure.IoC.dll
 C:\dev\ProntoSocorroApp\Infraestructure.IoC\bin\Debug\net8.0\Infrastructure.IoC.runtimeconfig.json
 C:\dev\ProntoSocorroApp\Infraestructure.IoC\obj\Debug\net8.0\Infrastructure.IoC.genruntimeconfig.cache
+C:\dev\ProntoSocorroApp\Infraestructure.IoC\obj\Debug\net8.0\Infrastructure.IoC.sourcelink.json

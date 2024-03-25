@@ -9,15 +9,15 @@ namespace Application.Interface
 {
     public interface IFuncionarioService
     {
-        Task<ListarFuncionarioDTO> GetFuncionarioById(Guid id);
+        Task<ResultDTO<ListarFuncionarioDTO>> GetFuncionarioById(Guid id);
 
-        Task<IEnumerable<FuncionarioDTO>> GetAllFuncionarios();
+        Task<ResultDTO<IEnumerable<ListarFuncionarioDTO>>> GetAllFuncionarios();
 
-        Task Create(FuncionarioDTO funcionarioDTO);
+        Task<ResultDTO<ListarFuncionarioDTO>> Create(FuncionarioDTO funcionarioDTO);
 
-        Task Delete(FuncionarioDTO funcionarioDTO);
+        Task<ResultDTO<string>> Delete(Guid id);
 
-        Task Update(FuncionarioDTO funcionarioDTO);
+        Task<ResultDTO<AtualizarFuncionarioDTO>> Update(AtualizarFuncionarioDTO funcionarioDTO,Guid id);
 
         Task<PacienteDTO> ChamarProximo();
     }

@@ -36,7 +36,6 @@ namespace Application.DTOs
 
         public int StatusPreferencial { get;  set; }
         public int StatusAtendimento { get;  set; }
-        public Funcionario Funcionario { get;  set; }
         public DateTime Datacriação { get; private set; }
     }
 }

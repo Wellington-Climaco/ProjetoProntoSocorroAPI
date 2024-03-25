@@ -19,35 +19,85 @@ namespace Application.Services
             _funcionarioRepository = funcionarioRepository;
         }
 
-        public Task<PacienteDTO> ChamarProximo()
+        private int pacienteNaoPreferencial = 0;
+        private int pacientePreferencial = 0;
+
+        public  Task<PacienteDTO> ChamarProximo()
         {
             throw new NotImplementedException();
         }
 
-        public async Task Create(FuncionarioDTO funcionarioDTO)
+        public async Task<ResultDTO<ListarFuncionarioDTO>> Create(FuncionarioDTO funcionarioDTO)
         {
-            await _funcionarioRepository.Create(new Funcionario(funcionarioDTO.Nome, funcionarioDTO.Sobrenome,(EArea)funcionarioDTO.Area));            
+            var funcionario = new Funcionario(funcionarioDTO.Nome, funcionarioDTO.Sobrenome, (EArea)funcionarioDTO.Area);
+            var resultValidate = funcionario.Validates();              
+
+            if(resultValidate.isValid)
+            {
+                await _funcionarioRepository.Create(funcionario);
+                var result = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);
+                return new ResultDTO<ListarFuncionarioDTO>(result);           
+            }
+
+            return new ResultDTO<ListarFuncionarioDTO>(resultValidate.errors);
+                              
         }
 
-        public Task Delete(FuncionarioDTO funcionarioDTO)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<FuncionarioDTO>> GetAllFuncionarios()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ListarFuncionarioDTO> GetFuncionarioById(Guid id)
+        public async Task<ResultDTO<string>> Delete(Guid id)
         {
             var funcionario = await _funcionarioRepository.GetFuncionario(id);
-            return new ListarFuncionarioDTO(funcionario.Id,funcionario.Nome,funcionario.Sobrenome,funcionario.Area);
+
+            if (funcionario == null) return new ResultDTO<string>("Funcionário não encontrado");
+
+            await _funcionarioRepository.Remove(funcionario);
+            return new ResultDTO<string>("Removido com sucesso!!");
+
         }
 
-        public Task Update(FuncionarioDTO funcionarioDTO)
+        public async Task<ResultDTO<IEnumerable<ListarFuncionarioDTO>>> GetAllFuncionarios()
         {
-            throw new NotImplementedException();
+            var funcionarios = await _funcionarioRepository.GetAll();
+            if(funcionarios == null) return new ResultDTO<IEnumerable<ListarFuncionarioDTO>>("Não existem funcionários");
+           
+            var funcionarioDTO = new List<ListarFuncionarioDTO>();
+            
+            foreach (var funcionario in funcionarios)
+            {
+                var toDTO = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);  
+                funcionarioDTO.Add(toDTO);
+            }
+
+            return new ResultDTO<IEnumerable<ListarFuncionarioDTO>>(funcionarioDTO);
+            
+        }
+
+        public async Task<ResultDTO<ListarFuncionarioDTO>> GetFuncionarioById(Guid id)
+        {
+            var funcionarioEntity = await _funcionarioRepository.GetFuncionario(id);              
+            if (funcionarioEntity == null) return new ResultDTO<ListarFuncionarioDTO>("Funcionário não encontrado");
+
+            var funcionarioDTO = new ListarFuncionarioDTO(funcionarioEntity.Id,funcionarioEntity.Nome,funcionarioEntity.Sobrenome,funcionarioEntity.Area,funcionarioEntity.Datacriação);
+            return new ResultDTO<ListarFuncionarioDTO>(funcionarioDTO);
+        }
+
+        public async Task<ResultDTO<AtualizarFuncionarioDTO>> Update(AtualizarFuncionarioDTO funcionarioDTO, Guid id)
+        {
+            var funcionario = await _funcionarioRepository.GetFuncionario(id);
+            if (funcionario == null) return new ResultDTO<AtualizarFuncionarioDTO>("Funcionário não encontrado");
+                       
+            funcionario.Update(funcionarioDTO.Nome, funcionarioDTO.Sobrenome, (EArea)funcionarioDTO.Area);  
+
+            var validacao = funcionario.Validates();
+            if (!validacao.isValid)
+                return new ResultDTO<AtualizarFuncionarioDTO>(validacao.errors);
+
+            await _funcionarioRepository.Update(funcionario);
+
+            var funcionarioToDTO = new AtualizarFuncionarioDTO { Nome = funcionario.Nome, Sobrenome = funcionario.Sobrenome, Area = (int)funcionario.Area };
+            //var funcionarioToDTO = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);
+            return new ResultDTO<AtualizarFuncionarioDTO>(funcionarioToDTO);
+            
+
         }
     }
 }

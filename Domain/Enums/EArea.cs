@@ -10,7 +10,7 @@ namespace Domain.Enums
     {
         Triagem = 1,
         Recepção = 2,
-        ConsultorioMedico = 3,
+        Clinico = 3,
         Ortopedia = 4,
         Enfermeira = 5
 

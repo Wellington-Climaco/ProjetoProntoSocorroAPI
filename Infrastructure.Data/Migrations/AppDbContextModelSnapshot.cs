@@ -34,7 +34,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnName("Area");
 
                     b.Property<DateTime>("Datacriação")
-                        .HasColumnType("DATE")
+                        .HasColumnType("DATETIME")
                         .HasColumnName("Datacriação");
 
                     b.Property<string>("Nome")

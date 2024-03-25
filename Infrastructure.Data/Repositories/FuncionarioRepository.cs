@@ -22,14 +22,14 @@ namespace Infrastructure.Data.Repositories
         public async Task<Paciente> ChamarProximoNãoPreferencial()
         {
             var paciente = await _dbContext.Pacientes.Where(x=>x.StatusAtendimento.ToString() == x.Funcionario.Area.ToString()
-            && x.StatusPreferencial == EStatusPreferencial.SemDeficiencia).OrderBy(x=>x.Datacriação).FirstAsync();
+            && x.Preferencial == EPreferencial.N).OrderBy(x=>x.Datacriação).FirstAsync();
             return paciente;
         }
 
         public async Task<Paciente> ChamarProximoPreferencial()
         {
             var paciente = await _dbContext.Pacientes.Where(x => x.StatusAtendimento.ToString() == x.Funcionario.Area.ToString()
-            && x.StatusPreferencial != EStatusPreferencial.SemDeficiencia).OrderBy(x => x.Datacriação).FirstAsync();
+            && x.Preferencial == EPreferencial.S).OrderBy(x => x.Datacriação).FirstAsync();
             return paciente;
         }
 
@@ -46,22 +46,22 @@ namespace Infrastructure.Data.Repositories
         }
 
         public async Task<Funcionario> Create(Funcionario funcionario)
-        {
-            await _dbContext.Funcionarios.AddAsync(funcionario);
+        {                       
+            await _dbContext.AddAsync(funcionario);
             await _dbContext.SaveChangesAsync();
             return funcionario;
         }
 
         public async Task<Funcionario> Remove(Funcionario funcionario)
         {       
-            _dbContext.Funcionarios.Remove(funcionario);
+            _dbContext.Remove(funcionario);
             await _dbContext.SaveChangesAsync();
             return funcionario;
         }
 
         public async Task<Funcionario> Update(Funcionario funcionario)
         {
-            _dbContext.Funcionarios.Update(funcionario);
+            _dbContext.Update(funcionario);
             await _dbContext.SaveChangesAsync();
             return funcionario;
         }

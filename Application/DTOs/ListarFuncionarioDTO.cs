@@ -12,31 +12,34 @@ namespace Application.DTOs
 {
     public class ListarFuncionarioDTO
     {
-        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area)
+        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area,DateTime datacriacao)
         {
             Id = id;
-            Nome = nome;
-            Sobrenome = sobrenome;
+            Nome = $"{nome} {sobrenome}";
             EnumArea = area;
+            Datacriação = datacriacao.ToString("dd/MM/yyyy HH:mm:ss");
         }
-        
-        public Guid Id { get; private set; }
+
+        public ListarFuncionarioDTO()
+        {
+            
+        }
+
+        public Guid? Id { get; private set; }
 
         [Required(ErrorMessage = "Nome é um campo obrigatório")]
         [MinLength(3)]
         [MaxLength(20)]
-        public string Nome { get; set; }
+        public string? Nome { get; set; }
 
-        [Required(ErrorMessage = "Sobrenome é um campo obrigatório")]
-        [MinLength(3)]
-        [MaxLength(20)]
-        public string Sobrenome { get; set; }
-       
-        public EArea EnumArea { get; set; }
+        [Range(1, 5, ErrorMessage = "Somente numeros de 1 a 5")]
+        public EArea? EnumArea { get; set; }
 
         [JsonIgnore]
-        public Paciente Paciente { get; set; }
+        public Paciente? Paciente { get; set; }
 
-        public DateTime Datacriação { get; private set; }
+        public string? Datacriação { get; private set; }
+       
+        
     }
 }

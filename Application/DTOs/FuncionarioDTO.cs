@@ -12,7 +12,8 @@ namespace Application.DTOs
 {
     public class FuncionarioDTO
     {
-
+        [JsonIgnore]
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Nome é um campo obrigatório")]
         [MinLength(3)]
@@ -24,6 +25,7 @@ namespace Application.DTOs
         [MaxLength(20)]
         public string Sobrenome { get;  set; }
 
+        [Range(1,5,ErrorMessage = "Somente numeros de 1 a 5")]
         public int Area { get;  set; }
 
         public DateTime Datacriação { get; private set; }

@@ -21,30 +21,51 @@ namespace Domain.Entities
 
         public Funcionario(string nome,string sobrenome,EArea area)
         {
-            ValidateDomain(nome, sobrenome, area);
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Area = area;
+            
         }
 
         public Funcionario(Guid Id,string nome, string sobrenome, EArea area)
         {
-            DomainValidation.Validate(Id == Guid.Empty, "Id inválido");
-            ValidateDomain(nome, sobrenome, area);
-        }
-
-        public void Update(Guid Id, string nome, string sobrenome, EArea area)
-        {
-            DomainValidation.Validate(Id == Guid.Empty, "Id inválido");
-            ValidateDomain(nome, sobrenome, area);
-        }
-
-
-        private void ValidateDomain(string nome,string sobrenome,EArea area)
-        {
-            DomainValidation.Validate(string.IsNullOrEmpty(nome), "Nome não pode ser vazio");
-            DomainValidation.Validate(string.IsNullOrEmpty(sobrenome), "Sobrenome não pode ser vazio");
-
             Nome = nome;
             Sobrenome = sobrenome;
-            Area = area;
+            Area = area;                  
         }
+
+        public void Update(string nome, string sobrenome, EArea area)
+        {
+            if (!string.IsNullOrEmpty(nome))
+            {
+                Nome = nome;
+            }
+
+            if (!string.IsNullOrEmpty(sobrenome))
+            {
+                Sobrenome= sobrenome;
+            }
+
+            if((int)area >= 1 && (int)area <= 5)
+            {
+                Area = area;
+            }
+           
+        }
+
+        public (bool isValid,List<string> errors) Validates()
+        {
+            List<string> errors = new List<string>();
+
+            if (string.IsNullOrEmpty(Nome))
+                errors.Add("Nome não pode ser vazio");
+
+            if (string.IsNullOrEmpty(Sobrenome))
+                errors.Add("Sobrenome não pode ser vazio");
+
+            
+            return (errors.Count == 0, errors);            
+        }
+
     }
 }
