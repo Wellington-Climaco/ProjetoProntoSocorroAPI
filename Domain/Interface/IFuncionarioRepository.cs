@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace Domain.Interface
 
         Task<Funcionario> Create(Funcionario funcionario);
 
-        Task<Paciente> ChamarProximoNãoPreferencial();
+        Task<Paciente> ChamarProximoNãoPreferencial(Funcionario funcionario);
 
-        Task<Paciente> ChamarProximoPreferencial();
+        Task<Paciente> ChamarProximoPreferencial(EArea area);
 
 
 

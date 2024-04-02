@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.FuncionarioDTOs;
 using Application.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -115,7 +115,24 @@ namespace ProntoSocorro.Controllers
             {
                 return StatusCode(500, "internal server error");
             }
+        }
 
+        [HttpGet("proximo/{id:guid}")]
+        public async Task<IActionResult> ChamarProximoPaciente(Guid id)
+        {
+            //try
+            //{
+                var paciente = await _funcionarioService.ChamarProximo(id);
+
+                if(!paciente.IsValid)
+                    return BadRequest(paciente.Errors);
+
+                return Ok(paciente.Data);
+            //}
+            //catch
+            //{
+            //    return StatusCode(500, "internal server error");
+            //}
         }
 
 

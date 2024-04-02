@@ -1,5 +1,6 @@
 ﻿using Domain.Enums;
 using Domain.Validate;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Domain.Entities
@@ -13,7 +14,8 @@ namespace Domain.Entities
         public EPreferencial Preferencial { get; private set; }
         public EStatusPreferencial StatusPreferencial { get; private set; }
         public EStatusAtendimento StatusAtendimento { get; private set; } = EStatusAtendimento.Triagem;
-        public Funcionario Funcionario { get; private set; }
+        public List<string> Notifications = new();
+        public bool IsValid { get => Notifications.Count == 0; }        
 
         public Paciente()
         {
@@ -22,45 +24,85 @@ namespace Domain.Entities
 
         public Paciente(string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial)
         {
-            ValidateDomain(nome, sobrenome, documento, datanascimento, preferencial);
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Documento = documento;
+            DataNascimento = datanascimento;
+            
+            if(preferencial != EPreferencial.S && preferencial != EPreferencial.N)
+                Notifications.Add("situação preferencial inválida");
+
+            Preferencial = preferencial;
+           
+            Validate();
         }
 
         public Paciente(string nome,string sobrenome,string documento,DateTime datanascimento, EPreferencial preferencial,EStatusPreferencial statusPreferencial)
-        {
-            ValidateDomain(nome,sobrenome,documento,datanascimento,preferencial);
+        {           
+            Nome = nome;
+            Sobrenome = sobrenome;
+            Documento = documento;
+            DataNascimento = datanascimento;
+            Preferencial = preferencial;
             StatusPreferencial = statusPreferencial;
+
+            if (!Enum.IsDefined(typeof(EStatusPreferencial), StatusPreferencial))
+                Notifications.Add("Status preferencial inválido");
+
+            if (!Enum.IsDefined(typeof(EPreferencial), Preferencial))
+                Notifications.Add("situação preferencial inválida");
+
+            Validate();
 
         }
 
         public Paciente(Guid id,string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial, EStatusPreferencial statusPreferencial)
         {
-            DomainValidation.Validate(id == Guid.Empty, "Id inválido");
-            StatusPreferencial = statusPreferencial;
-            ValidateDomain(nome, sobrenome, documento, datanascimento, preferencial);
+            if (!Enum.IsDefined(typeof(EStatusPreferencial), StatusPreferencial))
+                Notifications.Add("Status preferencial inválido");
+
+            if (!Enum.IsDefined(typeof(EPreferencial), Preferencial))
+                Notifications.Add("situação preferencial inválida");
+
+            Validate();
         }
 
-        public void Update(Guid id, string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial, EStatusPreferencial statusPreferencial)
+        public void Update(string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial)
         {
-            DomainValidation.Validate(id == Guid.Empty, "Id inválido");
-            StatusPreferencial = statusPreferencial;
-            ValidateDomain(nome, sobrenome, documento, datanascimento, preferencial);
+            if (!string.IsNullOrEmpty(nome))
+                Nome = nome;
+
+            if (!string.IsNullOrEmpty(sobrenome))
+                Sobrenome = sobrenome;
+
+            if (!string.IsNullOrEmpty(documento))
+                Documento = documento;
+
+            if(datanascimento != DateTime.MinValue && datanascimento < DateTime.Today)
+                DataNascimento = datanascimento;
+
+            if (Enum.IsDefined(typeof(EPreferencial), Preferencial))
+                Preferencial = preferencial;
+          
         }
 
-        private void ValidateDomain(string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial)
+        private void Validate()
         {
-            DomainValidation.Validate(string.IsNullOrEmpty(nome), "Nome não pode ser vazio");
-            DomainValidation.Validate(string.IsNullOrEmpty(sobrenome), "SobreNome não pode ser vazio");
-            DomainValidation.Validate(string.IsNullOrEmpty(documento), "Documento não pode ser vzio");
-            DomainValidation.Validate(datanascimento >= DateTime.Today, "Data nascimento Inválida");
-            DomainValidation.Validate(datanascimento <= DateTime.MinValue, "Data nascimento Inválida");
+            if (string.IsNullOrEmpty(Nome))
+                Notifications.Add("Nome não pode ser vazio");
 
-            Nome = nome;
-            Sobrenome = sobrenome;
-            Documento = documento;
-            DataNascimento = datanascimento;
-            Preferencial = preferencial;            
+            if (string.IsNullOrEmpty(Sobrenome))
+                Notifications.Add("Sobrenome não pode ser vazio");
 
+            if (string.IsNullOrEmpty(Documento))
+                Notifications.Add("Documento não pode ser vazio");
+
+            if (DataNascimento >= DateTime.Today)
+                Notifications.Add("Data nascimento Inválida");
+
+            if (DataNascimento <= DateTime.MinValue)
+                Notifications.Add("Data nascimento Inválida");
+            
         }
-
     }
 }

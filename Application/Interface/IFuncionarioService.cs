@@ -1,4 +1,6 @@
 ﻿using Application.DTOs;
+using Application.DTOs.FuncionarioDTOs;
+using Application.DTOs.PacienteDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,6 @@ namespace Application.Interface
 
         Task<ResultDTO<AtualizarFuncionarioDTO>> Update(AtualizarFuncionarioDTO funcionarioDTO,Guid id);
 
-        Task<PacienteDTO> ChamarProximo();
+        Task<ResultDTO<ListarPacienteDTO>> ChamarProximo(Guid id);
     }
 }

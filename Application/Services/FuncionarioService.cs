@@ -1,4 +1,6 @@
 ﻿using Application.DTOs;
+using Application.DTOs.FuncionarioDTOs;
+using Application.DTOs.PacienteDTOs;
 using Application.Interface;
 using Domain.Entities;
 using Domain.Enums;
@@ -22,9 +24,37 @@ namespace Application.Services
         private int pacienteNaoPreferencial = 0;
         private int pacientePreferencial = 0;
 
-        public  Task<PacienteDTO> ChamarProximo()
+        public async Task<ResultDTO<ListarPacienteDTO>> ChamarProximo(Guid id)
         {
-            throw new NotImplementedException();
+            var funcionario = await _funcionarioRepository.GetFuncionario(id);
+
+            if(pacienteNaoPreferencial <= 2)
+            {
+                pacienteNaoPreferencial++;
+                var paciente = await _funcionarioRepository.ChamarProximoNãoPreferencial(funcionario);
+
+                if (paciente == null)
+                    return new ResultDTO<ListarPacienteDTO>("fila vazia");
+                
+                var pacienteToDTO = new ListarPacienteDTO(paciente.Id,paciente.Nome,paciente.Sobrenome, paciente.Documento,
+                    paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
+                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO);
+            }
+            else
+            {
+                pacienteNaoPreferencial = 0;
+                var paciente = await _funcionarioRepository.ChamarProximoPreferencial(funcionario.Area);
+
+                if (paciente == null)
+                    return new ResultDTO<ListarPacienteDTO>("fila vazia");
+
+                var pacienteToDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento,
+                    paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
+                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO);
+            }
+
+
+            
         }
 
         public async Task<ResultDTO<ListarFuncionarioDTO>> Create(FuncionarioDTO funcionarioDTO)
@@ -35,7 +65,7 @@ namespace Application.Services
             if(resultValidate.isValid)
             {
                 await _funcionarioRepository.Create(funcionario);
-                var result = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);
+                var result = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriacao);
                 return new ResultDTO<ListarFuncionarioDTO>(result);           
             }
 
@@ -63,7 +93,7 @@ namespace Application.Services
             
             foreach (var funcionario in funcionarios)
             {
-                var toDTO = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);  
+                var toDTO = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriacao);  
                 funcionarioDTO.Add(toDTO);
             }
 
@@ -76,7 +106,7 @@ namespace Application.Services
             var funcionarioEntity = await _funcionarioRepository.GetFuncionario(id);              
             if (funcionarioEntity == null) return new ResultDTO<ListarFuncionarioDTO>("Funcionário não encontrado");
 
-            var funcionarioDTO = new ListarFuncionarioDTO(funcionarioEntity.Id,funcionarioEntity.Nome,funcionarioEntity.Sobrenome,funcionarioEntity.Area,funcionarioEntity.Datacriação);
+            var funcionarioDTO = new ListarFuncionarioDTO(funcionarioEntity.Id,funcionarioEntity.Nome,funcionarioEntity.Sobrenome,funcionarioEntity.Area,funcionarioEntity.Datacriacao);
             return new ResultDTO<ListarFuncionarioDTO>(funcionarioDTO);
         }
 
@@ -93,8 +123,7 @@ namespace Application.Services
 
             await _funcionarioRepository.Update(funcionario);
 
-            var funcionarioToDTO = new AtualizarFuncionarioDTO { Nome = funcionario.Nome, Sobrenome = funcionario.Sobrenome, Area = (int)funcionario.Area };
-            //var funcionarioToDTO = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriação);
+            var funcionarioToDTO = new AtualizarFuncionarioDTO { Nome = funcionario.Nome, Sobrenome = funcionario.Sobrenome, Area = (int)funcionario.Area };           
             return new ResultDTO<AtualizarFuncionarioDTO>(funcionarioToDTO);
             
 

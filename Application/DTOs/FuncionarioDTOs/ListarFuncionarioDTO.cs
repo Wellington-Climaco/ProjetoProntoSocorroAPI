@@ -8,21 +8,21 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.DTOs.FuncionarioDTOs
 {
     public class ListarFuncionarioDTO
     {
-        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area,DateTime datacriacao)
+        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area, DateTime datacriacao)
         {
             Id = id;
             Nome = $"{nome} {sobrenome}";
             EnumArea = area;
-            Datacriação = datacriacao.ToString("dd/MM/yyyy HH:mm:ss");
+            Datacriacao = datacriacao.ToString("dd/MM/yyyy HH:mm:ss");
         }
 
         public ListarFuncionarioDTO()
         {
-            
+
         }
 
         public Guid? Id { get; private set; }
@@ -38,8 +38,8 @@ namespace Application.DTOs
         [JsonIgnore]
         public Paciente? Paciente { get; set; }
 
-        public string? Datacriação { get; private set; }
-       
-        
+        public string? Datacriacao { get; private set; }
+
+
     }
 }

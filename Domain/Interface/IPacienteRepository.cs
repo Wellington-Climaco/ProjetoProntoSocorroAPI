@@ -9,7 +9,7 @@ namespace Domain.Interface
 {
     public interface IPacienteRepository
     {
-         Task<Paciente> GetPaciente(int id);
+         Task<Paciente> GetPaciente(Guid id);
 
          Task<IEnumerable<Paciente>> GetAll();
 

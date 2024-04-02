@@ -8,7 +8,8 @@ namespace Domain.Entities
 {
     public abstract class EntidadeBase
     {
+
         public Guid Id { get; set; } = Guid.NewGuid();
-        public DateTime Datacriação { get; set; } = DateTime.Now;
+        public DateTime Datacriacao { get; set; } = DateTime.Now;
     }
 }

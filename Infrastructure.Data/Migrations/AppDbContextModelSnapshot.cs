@@ -33,7 +33,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INT")
                         .HasColumnName("Area");
 
-                    b.Property<DateTime>("Datacriação")
+                    b.Property<DateTime>("Datacriacao")
                         .HasColumnType("DATETIME")
                         .HasColumnName("Datacriação");
 
@@ -64,7 +64,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("DATE")
                         .HasColumnName("DataNascimento");
 
-                    b.Property<DateTime>("Datacriação")
+                    b.Property<DateTime>("Datacriacao")
                         .HasColumnType("SMALLDATETIME")
                         .HasColumnName("Datacriação");
 
@@ -73,9 +73,6 @@ namespace Infrastructure.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Documento");
-
-                    b.Property<Guid>("FuncionarioId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -106,20 +103,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId");
-
                     b.ToTable("Paciente", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Paciente", b =>
-                {
-                    b.HasOne("Domain.Entities.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Funcionario");
                 });
 #pragma warning restore 612, 618
         }

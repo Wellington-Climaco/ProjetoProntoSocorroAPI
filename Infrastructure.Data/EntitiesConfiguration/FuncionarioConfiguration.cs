@@ -25,7 +25,7 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(x=> x.Area).HasColumnName("Area").HasColumnType("INT").HasMaxLength(10);
 
-            builder.Property(x => x.Datacriação).IsRequired().HasColumnName("Datacriação").HasColumnType("DATETIME");
+            builder.Property(x => x.Datacriacao).IsRequired().HasColumnName("Datacriação").HasColumnType("DATETIME");
         }
     }
 }

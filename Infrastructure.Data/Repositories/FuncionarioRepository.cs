@@ -19,17 +19,26 @@ namespace Infrastructure.Data.Repositories
             _dbContext = appDbContext;
         }
 
-        public async Task<Paciente> ChamarProximoNãoPreferencial()
+        public async Task<Paciente> ChamarProximoNãoPreferencial(Funcionario funcionario)
         {
-            var paciente = await _dbContext.Pacientes.Where(x=>x.StatusAtendimento.ToString() == x.Funcionario.Area.ToString()
-            && x.Preferencial == EPreferencial.N).OrderBy(x=>x.Datacriação).FirstAsync();
-            return paciente;
+            var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N).OrderBy(x => x.Datacriacao).ToListAsync();
+
+            List<Paciente> proximo = new List<Paciente>();
+            foreach(var person in pacientes)
+            {
+                if(person.StatusAtendimento.ToString() == funcionario.Area.ToString())
+                {
+                    proximo.Add(person);
+                }
+            }
+
+            return proximo.OrderBy(x=>x.Datacriacao).First();         
         }
 
-        public async Task<Paciente> ChamarProximoPreferencial()
+        public async Task<Paciente> ChamarProximoPreferencial(EArea area)
         {
-            var paciente = await _dbContext.Pacientes.Where(x => x.StatusAtendimento.ToString() == x.Funcionario.Area.ToString()
-            && x.Preferencial == EPreferencial.S).OrderBy(x => x.Datacriação).FirstAsync();
+            var paciente = await _dbContext.Pacientes.Where(x => x.StatusAtendimento.ToString() == area.ToString()
+            && x.Preferencial == EPreferencial.S).OrderBy(x => x.Datacriacao).FirstAsync();
             return paciente;
         }
 

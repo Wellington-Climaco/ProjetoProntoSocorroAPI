@@ -25,6 +25,8 @@ namespace Infrastructure.IoC
 
             services.AddScoped<IFuncionarioRepository, FuncionarioRepository>();
             services.AddScoped<IFuncionarioService,FuncionarioService>();
+            services.AddScoped<IPacienteRepository, PacienteRepository>();
+            services.AddScoped<IPacienteService,PacienteService>();
 
             return services;
         }

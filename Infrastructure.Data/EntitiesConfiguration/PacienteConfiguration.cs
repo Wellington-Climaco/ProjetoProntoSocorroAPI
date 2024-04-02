@@ -34,7 +34,8 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(x => x.StatusAtendimento).IsRequired().HasColumnName("StatusAtendimento").HasColumnType("INT").HasMaxLength(10);
 
-            builder.Property(x=>x.Datacriação).IsRequired().HasColumnName("Datacriação").HasColumnType("SMALLDATETIME");
+            builder.Property(x=>x.Datacriacao).IsRequired().HasColumnName("Datacriação").HasColumnType("SMALLDATETIME");
+           
 
         }
     }
