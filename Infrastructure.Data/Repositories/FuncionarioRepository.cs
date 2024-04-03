@@ -14,31 +14,48 @@ namespace Infrastructure.Data.Repositories
     public class FuncionarioRepository : IFuncionarioRepository
     {
         private readonly AppDbContext _dbContext;
-        public FuncionarioRepository(AppDbContext appDbContext)
+        private readonly IPacienteRepository _pacienteRepository;
+        public FuncionarioRepository(AppDbContext appDbContext, IPacienteRepository pacienteRepository)
         {
             _dbContext = appDbContext;
+            _pacienteRepository = pacienteRepository;
         }
 
         public async Task<Paciente> ChamarProximoNãoPreferencial(Funcionario funcionario)
         {
-            var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N).OrderBy(x => x.Datacriacao).ToListAsync();
+            var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N && x.EmAtendimento == false).ToListAsync();
 
             List<Paciente> proximo = new List<Paciente>();
-            foreach(var person in pacientes)
+            foreach (var person in pacientes)
             {
-                if(person.StatusAtendimento.ToString() == funcionario.Area.ToString())
+                if (person.StatusAtendimento.ToString() == funcionario.Area.ToString())
                 {
                     proximo.Add(person);
                 }
             }
 
-            return proximo.OrderBy(x=>x.Datacriacao).First();         
+            var paciente = proximo.OrderBy(x => x.Datacriacao).First();
+            paciente.ParaAtendimento();
+            await _pacienteRepository.Update(paciente);
+            return paciente;
         }
 
-        public async Task<Paciente> ChamarProximoPreferencial(EArea area)
+        public async Task<Paciente> ChamarProximoPreferencial(Funcionario funcionario)
         {
-            var paciente = await _dbContext.Pacientes.Where(x => x.StatusAtendimento.ToString() == area.ToString()
-            && x.Preferencial == EPreferencial.S).OrderBy(x => x.Datacriacao).FirstAsync();
+            var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.S && x.EmAtendimento == false).ToListAsync();
+
+            List<Paciente> proximo = new List<Paciente>();
+            foreach (var person in pacientes)
+            {
+                if (person.StatusAtendimento.ToString() == funcionario.Area.ToString())
+                {
+                    proximo.Add(person);
+                }
+            }
+
+            var paciente = proximo.OrderBy(x => x.Datacriacao).First();
+            paciente.ParaAtendimento();
+            await _pacienteRepository.Update(paciente);
             return paciente;
         }
 

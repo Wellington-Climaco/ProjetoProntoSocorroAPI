@@ -22,7 +22,7 @@ namespace Domain.Interface
 
         Task<Paciente> ChamarProximoNãoPreferencial(Funcionario funcionario);
 
-        Task<Paciente> ChamarProximoPreferencial(EArea area);
+        Task<Paciente> ChamarProximoPreferencial(Funcionario funcionario);
 
 
 

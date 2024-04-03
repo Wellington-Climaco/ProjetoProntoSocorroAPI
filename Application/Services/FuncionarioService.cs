@@ -21,14 +21,16 @@ namespace Application.Services
             _funcionarioRepository = funcionarioRepository;
         }
 
-        private int pacienteNaoPreferencial = 0;
+        private static int pacienteNaoPreferencial = 0;
         private int pacientePreferencial = 0;
 
         public async Task<ResultDTO<ListarPacienteDTO>> ChamarProximo(Guid id)
         {
             var funcionario = await _funcionarioRepository.GetFuncionario(id);
+            if(funcionario == null)
+                return new ResultDTO<ListarPacienteDTO>("funcionário não encontrado");
 
-            if(pacienteNaoPreferencial <= 2)
+            if (pacienteNaoPreferencial < 2)
             {
                 pacienteNaoPreferencial++;
                 var paciente = await _funcionarioRepository.ChamarProximoNãoPreferencial(funcionario);
@@ -43,7 +45,7 @@ namespace Application.Services
             else
             {
                 pacienteNaoPreferencial = 0;
-                var paciente = await _funcionarioRepository.ChamarProximoPreferencial(funcionario.Area);
+                var paciente = await _funcionarioRepository.ChamarProximoPreferencial(funcionario);
 
                 if (paciente == null)
                     return new ResultDTO<ListarPacienteDTO>("fila vazia");

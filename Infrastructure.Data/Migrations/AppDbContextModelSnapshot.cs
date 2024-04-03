@@ -74,6 +74,10 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Documento");
 
+                    b.Property<bool>("EmAtendimento")
+                        .HasColumnType("BIT")
+                        .HasColumnName("EmAtendimento");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)

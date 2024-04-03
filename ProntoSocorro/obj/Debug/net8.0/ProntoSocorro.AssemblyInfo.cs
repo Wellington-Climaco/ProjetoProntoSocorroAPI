@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+52f47cb4b755211c3e92012795f2e5bfd7187813")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+658c6ad4f7c69da69c61ebd583a5da9dbffa116b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

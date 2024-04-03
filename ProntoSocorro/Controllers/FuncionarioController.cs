@@ -120,19 +120,19 @@ namespace ProntoSocorro.Controllers
         [HttpGet("proximo/{id:guid}")]
         public async Task<IActionResult> ChamarProximoPaciente(Guid id)
         {
-            //try
-            //{
+            try
+            {
                 var paciente = await _funcionarioService.ChamarProximo(id);
 
                 if(!paciente.IsValid)
                     return BadRequest(paciente.Errors);
 
                 return Ok(paciente.Data);
-            //}
-            //catch
-            //{
-            //    return StatusCode(500, "internal server error");
-            //}
+            }
+            catch
+            {
+                return StatusCode(500, "internal server error");
+            }
         }
 
 

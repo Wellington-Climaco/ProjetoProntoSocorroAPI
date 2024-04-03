@@ -15,7 +15,8 @@ namespace Domain.Entities
         public EStatusPreferencial StatusPreferencial { get; private set; }
         public EStatusAtendimento StatusAtendimento { get; private set; } = EStatusAtendimento.Triagem;
         public List<string> Notifications = new();
-        public bool IsValid { get => Notifications.Count == 0; }        
+        public bool IsValid { get => Notifications.Count == 0; }
+        public bool EmAtendimento { get; private set; } = false;
 
         public Paciente()
         {
@@ -101,8 +102,14 @@ namespace Domain.Entities
                 Notifications.Add("Data nascimento Inválida");
 
             if (DataNascimento <= DateTime.MinValue)
-                Notifications.Add("Data nascimento Inválida");
-            
+                Notifications.Add("Data nascimento Inválida");           
         }
+
+        public void ParaAtendimento()
+        {
+            EmAtendimento = true;
+        }
+
+
     }
 }
