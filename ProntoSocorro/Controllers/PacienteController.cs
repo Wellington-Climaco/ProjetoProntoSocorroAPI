@@ -38,7 +38,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
-        [HttpGet("buscar")]
+        [HttpGet("buscarTodos")]
         public async Task<IActionResult> BuscarTodosPacientes()
         {
             try

@@ -12,8 +12,6 @@ namespace Application.DTOs.PacienteDTOs
 {
     public class PacienteDTO
     {
-        [JsonIgnore]
-        public Guid Id { get; private set; }
 
         [Required(ErrorMessage = "Nome é um campo obrigatório")]
         [MinLength(3)]

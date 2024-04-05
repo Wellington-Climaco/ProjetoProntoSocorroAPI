@@ -35,9 +35,6 @@ namespace Application.DTOs.FuncionarioDTOs
         [Range(1, 5, ErrorMessage = "Somente numeros de 1 a 5")]
         public EArea? EnumArea { get; set; }
 
-        [JsonIgnore]
-        public Paciente? Paciente { get; set; }
-
         public string? Datacriacao { get; private set; }
 
 

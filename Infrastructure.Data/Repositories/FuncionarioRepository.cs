@@ -25,6 +25,10 @@ namespace Infrastructure.Data.Repositories
         {
             var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N && x.EmAtendimento == false).ToListAsync();
 
+            if (!pacientes.Any())
+                return null;
+                    
+
             List<Paciente> proximo = new List<Paciente>();
             foreach (var person in pacientes)
             {
@@ -34,9 +38,17 @@ namespace Infrastructure.Data.Repositories
                 }
             }
 
+            if(!proximo.Any())
+                return null;
+
             var paciente = proximo.OrderBy(x => x.Datacriacao).First();
-            paciente.ParaAtendimento();
+
+            paciente.MudarAtendimento();
+            funcionario.MudarAtendimento();
+
+            await Update(funcionario);
             await _pacienteRepository.Update(paciente);
+
             return paciente;
         }
 
@@ -54,7 +66,7 @@ namespace Infrastructure.Data.Repositories
             }
 
             var paciente = proximo.OrderBy(x => x.Datacriacao).First();
-            paciente.ParaAtendimento();
+            paciente.MudarAtendimento();
             await _pacienteRepository.Update(paciente);
             return paciente;
         }
@@ -90,6 +102,42 @@ namespace Infrastructure.Data.Repositories
             _dbContext.Update(funcionario);
             await _dbContext.SaveChangesAsync();
             return funcionario;
+        }
+
+        public async Task<bool> ExistemPreferenciais(Funcionario funcionario)
+        {
+            var _funcionario = funcionario;
+            var pacientes = await _dbContext.Pacientes.Where(x=>x.Preferencial == EPreferencial.S && x.EmAtendimento == false).ToListAsync();
+            var pacientesDisponiveis = new List<Paciente>();
+
+            foreach(var person in pacientes)
+            {
+                if(person.StatusAtendimento.ToString() == _funcionario.Area.ToString())
+                    pacientesDisponiveis.Add(person);
+            }
+
+            if (pacientesDisponiveis.Any())
+                return true;
+
+            return false;
+        }
+
+        public async Task<bool> ExistemNaoPreferenciais(Funcionario funcionario)
+        {
+            var _funcionario = funcionario;
+            var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N && x.EmAtendimento == false).ToListAsync();
+            var pacientesDisponiveis = new List<Paciente>();
+
+            foreach (var person in pacientes)
+            {
+                if (person.StatusAtendimento.ToString() == _funcionario.Area.ToString())
+                    pacientesDisponiveis.Add(person);
+            }
+
+            if (pacientesDisponiveis.Any())
+                return true;
+
+            return false;
         }
     }
 }

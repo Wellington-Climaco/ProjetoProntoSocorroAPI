@@ -24,8 +24,9 @@ namespace Domain.Interface
 
         Task<Paciente> ChamarProximoPreferencial(Funcionario funcionario);
 
+        Task<bool> ExistemPreferenciais(Funcionario funcionario);
 
-
+        Task<bool> ExistemNaoPreferenciais(Funcionario funcionario);
 
 
     }

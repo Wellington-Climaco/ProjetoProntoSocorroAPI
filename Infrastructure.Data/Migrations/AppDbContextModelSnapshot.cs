@@ -37,6 +37,9 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("DATETIME")
                         .HasColumnName("Datacriação");
 
+                    b.Property<bool>("EmAtendimento")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)

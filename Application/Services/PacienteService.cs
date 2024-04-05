@@ -32,7 +32,7 @@ namespace Application.Services
             await _pacienteRepository.Create(paciente);
             var result = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento,
                 paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
-            return new ResultDTO<ListarPacienteDTO>(result);
+            return new ResultDTO<ListarPacienteDTO>(result, true);
         }
 
         public async Task<ResultDTO<IEnumerable<ListarPacienteDTO>>> GetAllPacientes()
@@ -48,7 +48,7 @@ namespace Application.Services
                 pacienteDTO.Add(toDTO);
             }
 
-            return new ResultDTO<IEnumerable<ListarPacienteDTO>>(pacienteDTO);
+            return new ResultDTO<IEnumerable<ListarPacienteDTO>>(pacienteDTO, true);
         }
 
         public async Task<ResultDTO<ListarPacienteDTO>> GetById(Guid id)
@@ -57,7 +57,7 @@ namespace Application.Services
             if (paciente == null) return new ResultDTO<ListarPacienteDTO>("Paciente não encontrado");
 
             var toDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento, paciente.DataNascimento, paciente.Preferencial.ToString(),paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
-            return new ResultDTO<ListarPacienteDTO>(toDTO);
+            return new ResultDTO<ListarPacienteDTO>(toDTO, true);
 
         }
 
@@ -69,7 +69,7 @@ namespace Application.Services
                 return new ResultDTO<string>("Paciente não encontrado");
 
             await _pacienteRepository.Remove(paciente);
-            return new ResultDTO<string>("excluido com sucesso");                
+            return new ResultDTO<string>("excluido com sucesso", true);                
         }
 
         public async Task<ResultDTO<UpdatePacienteDTO>> UpdatePaciente(UpdatePacienteDTO pacienteDTO,Guid id)
@@ -86,7 +86,7 @@ namespace Application.Services
             var pacienteToDTO = new UpdatePacienteDTO { Nome = paciente.Nome,Sobrenome = paciente.Sobrenome,DataNascimento=paciente.DataNascimento,
                 Documento=paciente.Documento,Preferencial = (int)paciente.Preferencial};
 
-            return new ResultDTO<UpdatePacienteDTO>(pacienteToDTO);
+            return new ResultDTO<UpdatePacienteDTO>(pacienteToDTO, true);
         }
     }
 }

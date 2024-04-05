@@ -12,8 +12,6 @@ namespace Application.DTOs.FuncionarioDTOs
 {
     public class FuncionarioDTO
     {
-        [JsonIgnore]
-        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Nome é um campo obrigatório")]
         [MinLength(3)]

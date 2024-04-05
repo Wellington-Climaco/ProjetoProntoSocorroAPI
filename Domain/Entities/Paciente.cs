@@ -16,7 +16,7 @@ namespace Domain.Entities
         public EStatusAtendimento StatusAtendimento { get; private set; } = EStatusAtendimento.Triagem;
         public List<string> Notifications = new();
         public bool IsValid { get => Notifications.Count == 0; }
-        public bool EmAtendimento { get; private set; } = false;
+        
 
         public Paciente()
         {
@@ -48,7 +48,7 @@ namespace Domain.Entities
             StatusPreferencial = statusPreferencial;
 
             if (!Enum.IsDefined(typeof(EStatusPreferencial), StatusPreferencial))
-                Notifications.Add("Status preferencial inválido");
+                Notifications.Add("situação preferencial inválido");
 
             if (!Enum.IsDefined(typeof(EPreferencial), Preferencial))
                 Notifications.Add("situação preferencial inválida");
@@ -105,10 +105,19 @@ namespace Domain.Entities
                 Notifications.Add("Data nascimento Inválida");           
         }
 
-        public void ParaAtendimento()
+        public void Encaminhar(EStatusAtendimento area)
         {
-            EmAtendimento = true;
+            if (Enum.IsDefined(typeof(EStatusAtendimento), area))
+            {
+                StatusAtendimento = area;
+            }
+            else
+            {
+                Notifications.Add("Insira os dados corretamente");
+            }
         }
+
+        
 
 
     }

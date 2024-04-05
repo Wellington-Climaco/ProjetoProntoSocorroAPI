@@ -16,33 +16,44 @@ namespace Application.Services
     public class FuncionarioService : IFuncionarioService
     {
         private readonly IFuncionarioRepository _funcionarioRepository;
-        public FuncionarioService(IFuncionarioRepository funcionarioRepository)
+        private readonly IPacienteRepository _pacienteRepository;
+        public FuncionarioService(IFuncionarioRepository funcionarioRepository, IPacienteRepository pacienteRepository)
         {
             _funcionarioRepository = funcionarioRepository;
+            _pacienteRepository = pacienteRepository;
         }
 
         private static int pacienteNaoPreferencial = 0;
-        private int pacientePreferencial = 0;
 
         public async Task<ResultDTO<ListarPacienteDTO>> ChamarProximo(Guid id)
         {
             var funcionario = await _funcionarioRepository.GetFuncionario(id);
-            if(funcionario == null)
-                return new ResultDTO<ListarPacienteDTO>("funcionário não encontrado");
 
-            if (pacienteNaoPreferencial < 2)
+            if(funcionario == null)
+                return new ResultDTO<ListarPacienteDTO>("Funcionário não encontrado");
+
+            if (funcionario.EmAtendimento)
+                return new ResultDTO<ListarPacienteDTO>("Dispense o paciente atual para chamar o próximo!!");
+
+            var existemNaoPreferenciais = await _funcionarioRepository.ExistemNaoPreferenciais(funcionario);
+            var existemPreferenciais = await _funcionarioRepository.ExistemPreferenciais(funcionario);
+
+            if (pacienteNaoPreferencial < 2 && existemNaoPreferenciais)
             {
                 pacienteNaoPreferencial++;
                 var paciente = await _funcionarioRepository.ChamarProximoNãoPreferencial(funcionario);
 
                 if (paciente == null)
                     return new ResultDTO<ListarPacienteDTO>("fila vazia");
-                
+
+                               
                 var pacienteToDTO = new ListarPacienteDTO(paciente.Id,paciente.Nome,paciente.Sobrenome, paciente.Documento,
                     paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
-                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO);
+
+                funcionario.MudarAtendimento();
+                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO,true);
             }
-            else
+            else if(existemPreferenciais)
             {
                 pacienteNaoPreferencial = 0;
                 var paciente = await _funcionarioRepository.ChamarProximoPreferencial(funcionario);
@@ -52,7 +63,15 @@ namespace Application.Services
 
                 var pacienteToDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento,
                     paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
-                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO);
+
+                funcionario.MudarAtendimento();
+                await _funcionarioRepository.Update(funcionario);
+                return new ResultDTO<ListarPacienteDTO>(pacienteToDTO,true);
+
+            }
+            else
+            {
+                return new ResultDTO<ListarPacienteDTO>("fila vazia");
             }
 
 
@@ -68,7 +87,7 @@ namespace Application.Services
             {
                 await _funcionarioRepository.Create(funcionario);
                 var result = new ListarFuncionarioDTO(funcionario.Id, funcionario.Nome, funcionario.Sobrenome, funcionario.Area, funcionario.Datacriacao);
-                return new ResultDTO<ListarFuncionarioDTO>(result);           
+                return new ResultDTO<ListarFuncionarioDTO>(result, true);           
             }
 
             return new ResultDTO<ListarFuncionarioDTO>(resultValidate.errors);
@@ -82,7 +101,7 @@ namespace Application.Services
             if (funcionario == null) return new ResultDTO<string>("Funcionário não encontrado");
 
             await _funcionarioRepository.Remove(funcionario);
-            return new ResultDTO<string>("Removido com sucesso!!");
+            return new ResultDTO<string>("Removido com sucesso!!", true);
 
         }
 
@@ -99,7 +118,7 @@ namespace Application.Services
                 funcionarioDTO.Add(toDTO);
             }
 
-            return new ResultDTO<IEnumerable<ListarFuncionarioDTO>>(funcionarioDTO);
+            return new ResultDTO<IEnumerable<ListarFuncionarioDTO>>(funcionarioDTO, true);
             
         }
 
@@ -109,7 +128,7 @@ namespace Application.Services
             if (funcionarioEntity == null) return new ResultDTO<ListarFuncionarioDTO>("Funcionário não encontrado");
 
             var funcionarioDTO = new ListarFuncionarioDTO(funcionarioEntity.Id,funcionarioEntity.Nome,funcionarioEntity.Sobrenome,funcionarioEntity.Area,funcionarioEntity.Datacriacao);
-            return new ResultDTO<ListarFuncionarioDTO>(funcionarioDTO);
+            return new ResultDTO<ListarFuncionarioDTO>(funcionarioDTO,true);
         }
 
         public async Task<ResultDTO<AtualizarFuncionarioDTO>> Update(AtualizarFuncionarioDTO funcionarioDTO, Guid id)
@@ -126,8 +145,52 @@ namespace Application.Services
             await _funcionarioRepository.Update(funcionario);
 
             var funcionarioToDTO = new AtualizarFuncionarioDTO { Nome = funcionario.Nome, Sobrenome = funcionario.Sobrenome, Area = (int)funcionario.Area };           
-            return new ResultDTO<AtualizarFuncionarioDTO>(funcionarioToDTO);
+            return new ResultDTO<AtualizarFuncionarioDTO>(funcionarioToDTO,true);
             
+
+        }
+
+        public async Task<ResultDTO<string>> DispensarPaciente(Guid id,Guid idFuncionario)
+        {
+            var paciente = await _pacienteRepository.GetPaciente(id);
+            var funcionario = await _funcionarioRepository.GetFuncionario(idFuncionario);
+
+            if (paciente == null)
+                return new ResultDTO<string>("Paciente não encontrado");
+
+            if(funcionario == null)
+                return new ResultDTO<string>("Funcionario não encontrado");
+
+            funcionario.MudarAtendimento();
+            await _funcionarioRepository.Update(funcionario);
+
+            await _pacienteRepository.Remove(paciente);
+            return new ResultDTO<string>("Paciente dispensado",true);
+        }
+
+        public async Task<ResultDTO<string>> EncaminharPaciente(Guid idPaciente,Guid idFuncionario, int area)
+        {
+            var paciente = await _pacienteRepository.GetPaciente(idPaciente);
+            var funcionario = await _funcionarioRepository.GetFuncionario(idFuncionario);
+
+            if (paciente == null)
+                return new ResultDTO<string>("Paciente não encontrado");
+
+            if (funcionario == null)
+                return new ResultDTO<string>("Funcionario não encontrado");
+
+            paciente.Encaminhar((EStatusAtendimento)area);
+
+            if (!paciente.IsValid)
+                return new ResultDTO<string>(paciente.Notifications);
+            
+            paciente.MudarAtendimento();
+            funcionario.MudarAtendimento();
+
+            await _pacienteRepository.Update(paciente);
+            await _funcionarioRepository.Update(funcionario);
+
+            return new ResultDTO<string>("Paciente encaminhado",true);
 
         }
     }

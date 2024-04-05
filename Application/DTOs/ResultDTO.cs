@@ -12,8 +12,7 @@ namespace Application.DTOs
         public List<string> Errors { get; set; } = new();
 
         public T Data { get; set; }
-
-        [JsonIgnore]
+       
         public bool IsValid { get => Errors.Count == 0; }
 
 
@@ -31,6 +30,13 @@ namespace Application.DTOs
         {
             Errors.Add(error);
         }
-       
+
+        public ResultDTO(T data,bool HasNoErrors)
+        {
+            Data = data;
+            if (HasNoErrors)
+                Errors = new List<string>();
+        }
+
     }
 }

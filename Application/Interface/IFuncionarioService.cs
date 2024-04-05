@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using Application.DTOs.FuncionarioDTOs;
 using Application.DTOs.PacienteDTOs;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,9 @@ namespace Application.Interface
         Task<ResultDTO<AtualizarFuncionarioDTO>> Update(AtualizarFuncionarioDTO funcionarioDTO,Guid id);
 
         Task<ResultDTO<ListarPacienteDTO>> ChamarProximo(Guid id);
+
+        Task<ResultDTO<string>> DispensarPaciente(Guid id, Guid idFuncionario);
+
+        Task<ResultDTO<string>> EncaminharPaciente(Guid id, Guid idFuncionario, int Area);    
     }
 }
