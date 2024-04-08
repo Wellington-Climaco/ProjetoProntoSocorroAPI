@@ -30,8 +30,9 @@ namespace Domain.Entities
             Documento = documento;
             DataNascimento = datanascimento;
             
-            if(preferencial != EPreferencial.S && preferencial != EPreferencial.N)
+            if(!Enum.IsDefined(typeof(EPreferencial), preferencial))
                 Notifications.Add("situação preferencial inválida");
+            
 
             Preferencial = preferencial;
            
@@ -98,6 +99,18 @@ namespace Domain.Entities
             if (string.IsNullOrEmpty(Documento))
                 Notifications.Add("Documento não pode ser vazio");
 
+            if (Nome.Length > 46)
+                Notifications.Add("Máximo de 46 caracteres para o nome");
+
+            if(Sobrenome.Length > 46)
+                Notifications.Add("Máximo de 46 caracteres para o sobrenome"); 
+            
+            if (Documento.Length > 12)
+                Notifications.Add("Documento inválido");
+
+            if(Documento.Length < 9)
+                Notifications.Add("Documento inválido");           
+
             if (DataNascimento >= DateTime.Today)
                 Notifications.Add("Data nascimento Inválida");
 
@@ -113,7 +126,7 @@ namespace Domain.Entities
             }
             else
             {
-                Notifications.Add("Insira os dados corretamente");
+                Notifications.Add("Encaminhamento inválido");
             }
         }
 

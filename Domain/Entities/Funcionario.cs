@@ -24,6 +24,7 @@ namespace Domain.Entities
             Nome = nome;
             Sobrenome = sobrenome;
             Area = area;
+           
             
         }
 
