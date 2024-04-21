@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.PacienteDTOs;
 using Application.Interface;
 using Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProntoSocorro.Controllers
 {
+
     [ApiController]
     [Route("v1/paciente/")]
     public class PacienteController : ControllerBase
@@ -16,6 +18,7 @@ namespace ProntoSocorro.Controllers
             _pacienteService = pacienteService;
         }
 
+        [Authorize("Recepcao")]
         [HttpPost("criar")]
         public async Task<IActionResult> CriarPaciente(PacienteDTO pacienteDTO)
         {
@@ -38,6 +41,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("buscarTodos")]
         public async Task<IActionResult> BuscarTodosPacientes()
         {
@@ -56,6 +60,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("buscar/{id:guid}")]
         public async Task<IActionResult> BuscarPorId(Guid id)
         {
@@ -73,7 +78,8 @@ namespace ProntoSocorro.Controllers
                 return StatusCode(500, "internal server error");
             }
         }
-        
+
+        [Authorize]
         [HttpPut("atualizar/{id:guid}")]
         public async Task<IActionResult> AtualizarPaciente(Guid id,UpdatePacienteDTO pacienteDTO)
         {
@@ -96,6 +102,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Clinico,Recepcao")]
         [HttpDelete("remover/{id:guid}")]
         public async Task<IActionResult> RemoverPaciente([FromRoute]Guid id)
         {

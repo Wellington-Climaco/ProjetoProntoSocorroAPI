@@ -19,13 +19,17 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(x=>x.Id).ValueGeneratedOnAdd();
 
-            builder.Property(x => x.Nome).IsRequired().HasColumnName("Nome").HasColumnType("VARCHAR").HasMaxLength(50);
+            builder.Property(x => x.Nome).IsRequired().HasColumnName("Nome").HasColumnType("NVARCHAR").HasMaxLength(50);
 
-            builder.Property(x => x.Sobrenome).IsRequired().HasColumnName("Sobrenome").HasColumnType("VARCHAR").HasMaxLength(50);
+            builder.Property(x => x.Sobrenome).IsRequired().HasColumnName("Sobrenome").HasColumnType("NVARCHAR").HasMaxLength(50);
 
             builder.Property(x=> x.Area).HasColumnName("Area").HasColumnType("INT").HasMaxLength(10);
 
             builder.Property(x => x.Datacriacao).IsRequired().HasColumnName("Datacriação").HasColumnType("DATETIME");
+
+            builder.Property(x => x.Email).IsRequired().HasColumnName("Email").HasColumnType("NVARCHAR").HasMaxLength(100);
+
+            builder.OwnsOne(x => x.Senha).Property(x => x.Hash).IsRequired().HasColumnName("Senha").HasColumnType("NVARCHAR").HasMaxLength(255);
         }
     }
 }

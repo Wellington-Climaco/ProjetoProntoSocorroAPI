@@ -9,10 +9,11 @@ namespace Domain.Enums
     public enum EArea
     {
         Triagem = 1,
-        Recepção = 2,
+        Recepcao = 2,
         Clinico = 3,
         Ortopedia = 4,
-        Enfermeira = 5
+        Enfermeira = 5,
+        Admin = 6,
 
     }
 }

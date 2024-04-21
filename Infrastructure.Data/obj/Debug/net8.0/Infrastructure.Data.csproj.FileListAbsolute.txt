@@ -16,3 +16,5 @@ C:\dev\ProntoSocorroApp\Infrastructure.Data\obj\Debug\net8.0\Infrastructure.Data
 C:\dev\ProntoSocorroApp\Infrastructure.Data\obj\Debug\net8.0\Infrastructure.Data.genruntimeconfig.cache
 C:\dev\ProntoSocorroApp\Infrastructure.Data\obj\Debug\net8.0\ref\Infrastructure.Data.dll
 C:\dev\ProntoSocorroApp\Infrastructure.Data\obj\Debug\net8.0\Infrastructure.Data.sourcelink.json
+C:\dev\ProntoSocorroApp\Infrastructure.Data\bin\Debug\net8.0\Application.dll
+C:\dev\ProntoSocorroApp\Infrastructure.Data\bin\Debug\net8.0\Application.pdb

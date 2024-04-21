@@ -104,7 +104,7 @@ namespace Infrastructure.Data.Repositories
             return funcionario;
         }
 
-        public async Task<bool> ExistemPreferenciais(Funcionario funcionario)
+        public async Task<bool> ExistemPacientesPreferenciais(Funcionario funcionario)
         {
             var _funcionario = funcionario;
             var pacientes = await _dbContext.Pacientes.Where(x=>x.Preferencial == EPreferencial.S && x.EmAtendimento == false).ToListAsync();
@@ -122,7 +122,7 @@ namespace Infrastructure.Data.Repositories
             return false;
         }
 
-        public async Task<bool> ExistemNaoPreferenciais(Funcionario funcionario)
+        public async Task<bool> ExistemPacientesNaoPreferenciais(Funcionario funcionario)
         {
             var _funcionario = funcionario;
             var pacientes = await _dbContext.Pacientes.Where(x => x.Preferencial == EPreferencial.N && x.EmAtendimento == false).ToListAsync();
@@ -138,6 +138,22 @@ namespace Infrastructure.Data.Repositories
                 return true;
 
             return false;
+        }
+
+        public async Task<Funcionario> GetFuncionarioByEmail(string email)
+        {
+            var funcionario = await _dbContext.Funcionarios.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return funcionario;
+        }
+
+        public async Task<bool> VerificarSeSenhaEstaCorreta(Funcionario funcionario, string senha)
+        {
+            var senhaValida = funcionario.Senha.Verificacao(senha);
+
+            if(!senhaValida)
+                return false;
+
+            return true;
         }
     }
 }

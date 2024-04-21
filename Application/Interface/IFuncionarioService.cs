@@ -26,6 +26,10 @@ namespace Application.Interface
 
         Task<ResultDTO<string>> DispensarPaciente(Guid id, Guid idFuncionario);
 
-        Task<ResultDTO<string>> EncaminharPaciente(Guid id, Guid idFuncionario, int Area);    
+        Task<ResultDTO<string>> EncaminharPaciente(Guid id, Guid idFuncionario, int Area);
+
+        Task<ResultDTO<FuncionarioAuthenticateDTO>> AutenticarFuncionario(string email,string senha);
+
+        Task<ResultDTO<ListarFuncionarioDTO>> MudarAreaDoFuncionario(string email, int area);
     }
 }

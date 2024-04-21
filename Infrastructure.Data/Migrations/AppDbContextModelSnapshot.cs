@@ -40,16 +40,22 @@ namespace Infrastructure.Data.Migrations
                     b.Property<bool>("EmAtendimento")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("NVARCHAR")
+                        .HasColumnName("Email");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("Nome");
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("Sobrenome");
 
                     b.HasKey("Id");
@@ -84,7 +90,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("Nome");
 
                     b.Property<int>("Preferencial")
@@ -95,7 +101,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<string>("Sobrenome")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("VARCHAR")
+                        .HasColumnType("NVARCHAR")
                         .HasColumnName("Sobrenome");
 
                     b.Property<int>("StatusAtendimento")
@@ -111,6 +117,31 @@ namespace Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Paciente", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Funcionario", b =>
+                {
+                    b.OwnsOne("Domain.ValueObject.Senha", "Senha", b1 =>
+                        {
+                            b1.Property<Guid>("FuncionarioId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Hash")
+                                .IsRequired()
+                                .HasMaxLength(255)
+                                .HasColumnType("NVARCHAR")
+                                .HasColumnName("Senha");
+
+                            b1.HasKey("FuncionarioId");
+
+                            b1.ToTable("Funcionario");
+
+                            b1.WithOwner()
+                                .HasForeignKey("FuncionarioId");
+                        });
+
+                    b.Navigation("Senha")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

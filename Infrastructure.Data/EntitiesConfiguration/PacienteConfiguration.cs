@@ -20,9 +20,9 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
-            builder.Property(x => x.Nome).IsRequired().HasColumnName("Nome").HasColumnType("VARCHAR").HasMaxLength(50);
+            builder.Property(x => x.Nome).IsRequired().HasColumnName("Nome").HasColumnType("NVARCHAR").HasMaxLength(50);
 
-            builder.Property(x => x.Sobrenome).IsRequired().HasColumnName("Sobrenome").HasColumnType("VARCHAR").HasMaxLength(50);
+            builder.Property(x => x.Sobrenome).IsRequired().HasColumnName("Sobrenome").HasColumnType("NVARCHAR").HasMaxLength(50);
 
             builder.Property(x=>x.Documento).IsRequired().HasColumnName("Documento").HasColumnType("VARCHAR").HasMaxLength(100);
 
@@ -38,7 +38,6 @@ namespace Infrastructure.Data.EntitiesConfiguration
 
             builder.Property(x => x.EmAtendimento).IsRequired().HasColumnName("EmAtendimento").HasColumnType("BIT");
            
-
         }
     }
 }

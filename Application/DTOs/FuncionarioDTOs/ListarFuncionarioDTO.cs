@@ -12,12 +12,13 @@ namespace Application.DTOs.FuncionarioDTOs
 {
     public class ListarFuncionarioDTO
     {
-        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area, DateTime datacriacao)
+        public ListarFuncionarioDTO(Guid id, string nome, string sobrenome, EArea area, DateTime datacriacao, string email)
         {
             Id = id;
             Nome = $"{nome} {sobrenome}";
             EnumArea = area;
             Datacriacao = datacriacao.ToString("dd/MM/yyyy HH:mm:ss");
+            Email = email;
         }
 
         public ListarFuncionarioDTO()
@@ -32,7 +33,12 @@ namespace Application.DTOs.FuncionarioDTOs
         [MaxLength(20)]
         public string? Nome { get; set; }
 
-        [Range(1, 5, ErrorMessage = "Somente numeros de 1 a 5")]
+        [Required(ErrorMessage = "Email é um campo obrigatório")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
+        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "Email inválido")]
+        public string? Email { get; set; }
+
+        [Range(1, 6, ErrorMessage = "Somente numeros de 1 a 6")]
         public EArea? EnumArea { get; set; }
 
         public string? Datacriacao { get; private set; }

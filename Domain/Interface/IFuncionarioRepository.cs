@@ -24,10 +24,12 @@ namespace Domain.Interface
 
         Task<Paciente> ChamarProximoPreferencial(Funcionario funcionario);
 
-        Task<bool> ExistemPreferenciais(Funcionario funcionario);
+        Task<bool> ExistemPacientesPreferenciais(Funcionario funcionario);
 
-        Task<bool> ExistemNaoPreferenciais(Funcionario funcionario);
+        Task<bool> ExistemPacientesNaoPreferenciais(Funcionario funcionario);
 
+        Task<Funcionario> GetFuncionarioByEmail(string email);
 
+        Task<bool> VerificarSeSenhaEstaCorreta(Funcionario funcionario, string senha);
     }
 }

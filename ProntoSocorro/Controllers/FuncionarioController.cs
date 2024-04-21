@@ -1,5 +1,8 @@
 ﻿using Application.DTOs.FuncionarioDTOs;
 using Application.Interface;
+using Domain.Entities;
+using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +18,7 @@ namespace ProntoSocorro.Controllers
             _funcionarioService = funcionarioService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("criar")]
         public async Task<IActionResult> CriarFuncionario([FromBody] FuncionarioDTO funcionarioDTO)
         {
@@ -37,6 +41,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("buscar/{id:guid}")]
         public async Task<IActionResult> BuscarFuncionarioPorId([FromRoute] Guid id)
         {
@@ -55,6 +60,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("remover/{id:guid}")]
         public async Task<IActionResult> RemoverFuncionario([FromRoute] Guid id)
         {
@@ -77,6 +83,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("buscarTodos")]
         public async Task<IActionResult> BuscarFuncionarios()
         {
@@ -95,6 +102,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("atualizar/{id:guid}")]
         public async Task<IActionResult> AtualizarFuncionario([FromRoute] Guid id, [FromBody] AtualizarFuncionarioDTO funcionarioDTO)
         {
@@ -117,6 +125,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("proximo/{id:guid}")]
         public async Task<IActionResult> ChamarProximoPaciente(Guid id)
         {
@@ -135,6 +144,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin,Clinico,Recepcao")]
         [HttpDelete("dispensar/{idPaciente:guid}/{idFuncionario:guid}")]
         public async Task<IActionResult> DispensarPaciente(Guid idPaciente, Guid idFuncionario)
         {
@@ -157,6 +167,7 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("Encaminhar/{idPaciente:guid}/{idFuncionario:guid}")]
         public async Task<IActionResult> EncaminharPaciente(Guid idPaciente, int area,Guid idFuncionario)
         {
@@ -168,6 +179,29 @@ namespace ProntoSocorro.Controllers
                     return BadRequest(resultado.Errors);
 
                 return Ok(resultado.Data);
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, "Não foi possivel atualizar dados");
+            }
+            catch
+            {
+                return StatusCode(500, "internal server error");
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("atualizar/area")]
+        public async Task<IActionResult> MudarAreaDoFuncionario([FromBody] AtualizarAreaDTO atualizarArea)
+        {
+            try
+            {
+                var funcionario = await _funcionarioService.MudarAreaDoFuncionario(atualizarArea.email, atualizarArea.area);
+
+                if(!funcionario.IsValid)
+                    return BadRequest(funcionario.Errors);
+
+                return Ok(funcionario.Data);
             }
             catch (DbUpdateException ex)
             {

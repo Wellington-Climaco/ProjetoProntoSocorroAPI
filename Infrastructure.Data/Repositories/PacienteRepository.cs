@@ -43,7 +43,7 @@ namespace Infrastructure.Data.Repositories
         }
 
         public async Task<Paciente> Update(Paciente paciente)
-        {
+        {            
             _dbContext.Update(paciente);
             await _dbContext.SaveChangesAsync();
             return paciente;
