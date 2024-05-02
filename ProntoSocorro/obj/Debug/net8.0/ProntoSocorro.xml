@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProntoSocorro</name>
+    </assembly>
+    <members>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.CriarFuncionario(Application.DTOs.FuncionarioDTOs.FuncionarioDTO)">
+            <summary>
+            Registra novo funcionário no sistema (somente admin)
+            </summary>
+            <param name="funcionarioDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.RemoverFuncionario(System.Guid)">
+            <summary>
+            Remove funcionário. (somente admin)
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.ChamarProximoPaciente(System.Guid)">
+            <summary>
+            Chama o proximo paciente da fila
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.DispensarPaciente(System.Guid,System.Guid)">
+            <summary>
+            Dispensa paciente quando atendimento dele acabou
+            </summary>
+            <param name="idPaciente">id do paciente que esta sendo dispensado</param>
+            <param name="idFuncionario"> id do funcionário que esta dispensando</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.EncaminharPaciente(System.Guid,System.Int32,System.Guid)">
+            <summary>
+            Encaminha paciente pro especialista necessario, triagem/recepção/clinico...
+            </summary>
+            <param name="idPaciente">id do paciente que esta sendo encaminhado</param>
+            <param name="area">área que o paciente será encaminhado, triagem = 1 /recepção = 2/clinico = 3 /ortopedia = 4/enfermaria = 5... </param>
+            <param name="idFuncionario">id do funcionário que esta encaminhando</param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.FuncionarioController.MudarAreaDoFuncionario(Application.DTOs.FuncionarioDTOs.AtualizarAreaDTO)">
+            <summary>
+            Muda a área do funcionário (somente admin), triagem = 1 /recepção = 2/clinico = 3 /ortopedia = 4/enfermaria = 5
+            </summary>
+            <param name="atualizarArea"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.PacienteController.CriarPaciente(Application.DTOs.PacienteDTOs.PacienteDTO)">
+            <summary>
+            Adiciona paciente no sistema. (Recepção,Admin)
+            </summary>
+            <param name="pacienteDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.PacienteController.AtualizarDadosPaciente(System.Guid,Application.DTOs.PacienteDTOs.UpdatePacienteDTO)">
+            <summary>
+            Atualiza os dados do paciente. (admin / recepção)
+            </summary>
+            <param name="id"></param>
+            <param name="pacienteDTO"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ProntoSocorro.Controllers.PacienteController.RemoverPaciente(System.Guid)">
+            <summary>
+            (admin)
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -18,7 +18,12 @@ namespace ProntoSocorro.Controllers
             _pacienteService = pacienteService;
         }
 
-        [Authorize("Recepcao")]
+        /// <summary>
+        /// Adiciona paciente no sistema. (Recepção,Admin)
+        /// </summary>
+        /// <param name="pacienteDTO"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Recepcao,Admin")]
         [HttpPost("criar")]
         public async Task<IActionResult> CriarPaciente(PacienteDTO pacienteDTO)
         {
@@ -79,9 +84,15 @@ namespace ProntoSocorro.Controllers
             }
         }
 
-        [Authorize]
+        /// <summary>
+        /// Atualiza os dados do paciente. (admin / recepção)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="pacienteDTO"></param>
+        /// <returns></returns>
+        [Authorize(Roles ="Admin,Recepcao")]
         [HttpPut("atualizar/{id:guid}")]
-        public async Task<IActionResult> AtualizarPaciente(Guid id,UpdatePacienteDTO pacienteDTO)
+        public async Task<IActionResult> AtualizarDadosPaciente(Guid id,UpdatePacienteDTO pacienteDTO)
         {
             try
             {
@@ -102,6 +113,11 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        /// <summary>
+        /// (admin)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin,Clinico,Recepcao")]
         [HttpDelete("remover/{id:guid}")]
         public async Task<IActionResult> RemoverPaciente([FromRoute]Guid id)
@@ -125,6 +141,44 @@ namespace ProntoSocorro.Controllers
                 return StatusCode(500, "internal server error");
             }
 
+        }
+
+        [Authorize]
+        [HttpGet("buscarPorNome/{nome}")]
+        public async Task<IActionResult> BuscarPorNome([FromRoute] string nome)
+        {
+            try
+            {
+                var paciente = await _pacienteService.GetByName(nome);
+
+                if (!paciente.IsValid)
+                    return NotFound(paciente.Errors);
+
+                return Ok(paciente.Data);
+            }
+            catch
+            {
+                return StatusCode(500, "internal server error");
+            }
+        }
+
+        [Authorize]
+        [HttpGet("buscarPorDocumento/{documento}")]
+        public async Task<IActionResult> BuscarPorDocumento([FromRoute] string documento)
+        {
+            try
+            {
+                var paciente = await _pacienteService.GetByDocument(documento);
+
+                if (!paciente.IsValid)
+                    return NotFound(paciente.Errors);
+
+                return Ok(paciente.Data);
+            }
+            catch
+            {
+                return StatusCode(500, "internal server error");
+            }
         }
 
 

@@ -22,6 +22,11 @@ namespace Application.Services
 
         public async Task<ResultDTO<ListarPacienteDTO>> CreatePaciente(PacienteDTO pacienteDTO)
         {
+            var exist = _pacienteRepository.GetByDocument(pacienteDTO.Documento);
+
+            if (exist != null)
+                return new ResultDTO<ListarPacienteDTO>("Já existe paciente no sistema com este documento");
+
             var paciente = new Paciente(pacienteDTO.Nome, pacienteDTO.Sobrenome, pacienteDTO.Documento, pacienteDTO.DataNascimento, (EPreferencial)pacienteDTO.Preferencial);
             
             if (!paciente.IsValid)
@@ -51,6 +56,19 @@ namespace Application.Services
             return new ResultDTO<IEnumerable<ListarPacienteDTO>>(pacienteDTO, true);
         }
 
+        public async Task<ResultDTO<ListarPacienteDTO>> GetByDocument(string document)
+        {
+            var paciente = await _pacienteRepository.GetByDocument(document);
+
+            if (paciente == null)
+                return new ResultDTO<ListarPacienteDTO>("Paciente não encontrado");
+
+            var toDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento,
+                paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
+
+            return new ResultDTO<ListarPacienteDTO>(toDTO,true);
+        }
+
         public async Task<ResultDTO<ListarPacienteDTO>> GetById(Guid id)
         {
             var paciente = await _pacienteRepository.GetPaciente(id);
@@ -59,6 +77,25 @@ namespace Application.Services
             var toDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento, paciente.DataNascimento, paciente.Preferencial.ToString(),paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
             return new ResultDTO<ListarPacienteDTO>(toDTO, true);
 
+        }
+
+        public async Task<ResultDTO<IEnumerable<ListarPacienteDTO>>> GetByName(string name)
+        {
+            var pacientes = await _pacienteRepository.GetByName(name);
+
+            if (!pacientes.Any())
+                return new ResultDTO<IEnumerable<ListarPacienteDTO>>("Nenhum paciente encontrado");
+
+            var pacientesDTO = new List<ListarPacienteDTO>();
+
+            foreach (var paciente in pacientes)
+            {
+                var toDTO = new ListarPacienteDTO(paciente.Id, paciente.Nome, paciente.Sobrenome, paciente.Documento, paciente.DataNascimento, paciente.Preferencial.ToString(), paciente.StatusAtendimento.ToString(), paciente.Datacriacao);
+
+                pacientesDTO.Add(toDTO);
+            }
+
+            return new ResultDTO<IEnumerable<ListarPacienteDTO>>(pacientesDTO, true);
         }
 
         public async Task<ResultDTO<string>> RemoverPaciente(Guid id)
@@ -88,5 +125,7 @@ namespace Application.Services
 
             return new ResultDTO<UpdatePacienteDTO>(pacienteToDTO, true);
         }
+
+        
     }
 }

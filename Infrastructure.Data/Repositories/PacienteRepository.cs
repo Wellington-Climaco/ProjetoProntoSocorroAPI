@@ -30,6 +30,16 @@ namespace Infrastructure.Data.Repositories
             return await _dbContext.Pacientes.AsNoTracking().ToListAsync();
         }
 
+        public async Task<Paciente> GetByDocument(string document)
+        {
+            return await _dbContext.Pacientes.FirstOrDefaultAsync(x => x.Documento == document);
+        }
+
+        public async Task<IEnumerable<Paciente>> GetByName(string name)
+        {           
+            return await _dbContext.Pacientes.AsNoTracking().Where(x => x.Nome.ToLower().Contains(name.ToLower())).ToListAsync();
+        }
+
         public async Task<Paciente> GetPaciente(Guid id)
         {
             return await _dbContext.Pacientes.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
@@ -43,7 +53,7 @@ namespace Infrastructure.Data.Repositories
         }
 
         public async Task<Paciente> Update(Paciente paciente)
-        {            
+        {
             _dbContext.Update(paciente);
             await _dbContext.SaveChangesAsync();
             return paciente;

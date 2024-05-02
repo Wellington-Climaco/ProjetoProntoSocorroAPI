@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("a88fc486-3fa8-46ca-beca-beac168e823c")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0b5f92ff7c441a11706c4037fb6d607460c6b77")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+524487f8e46320c5f5249b1acf3025a279fd4d55")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProntoSocorro")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

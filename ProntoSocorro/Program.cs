@@ -1,5 +1,6 @@
 using Infrastructure.IoC;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 namespace ProntoSocorro
 {
@@ -25,6 +26,10 @@ namespace ProntoSocorro
                      Title = "API - Pronto socorro",
                      Description = "Aplicação para funcionários utilizarem em pronto socorro"
                  });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

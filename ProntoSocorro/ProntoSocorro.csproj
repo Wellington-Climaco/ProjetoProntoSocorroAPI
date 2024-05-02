@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>false</InvariantGlobalization>
+    <UserSecretsId>a88fc486-3fa8-46ca-beca-beac168e823c</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,5 +15,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Infraestructure.IoC\Infrastructure.IoC.csproj" />
   </ItemGroup>
+
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
 
 </Project>

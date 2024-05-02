@@ -9,14 +9,18 @@ namespace Domain.Interface
 {
     public interface IPacienteRepository
     {
-         Task<Paciente> GetPaciente(Guid id);
+        Task<Paciente> GetPaciente(Guid id);
 
-         Task<IEnumerable<Paciente>> GetAll();
+        Task<IEnumerable<Paciente>> GetAll();
 
-         Task<Paciente> Remove(Paciente paciente);
+        Task<Paciente> Remove(Paciente paciente);
 
-         Task<Paciente> Update(Paciente paciente);
+        Task<Paciente> Update(Paciente paciente);
 
-         Task<Paciente> Create(Paciente paciente);
+        Task<Paciente> Create(Paciente paciente);
+
+        Task<IEnumerable<Paciente>> GetByName(string name);
+
+        Task<Paciente> GetByDocument(string document);
     }
 }

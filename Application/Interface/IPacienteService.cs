@@ -20,5 +20,9 @@ namespace Application.Interface
 
         Task<ResultDTO<string>> RemoverPaciente(Guid id);
 
+        Task<ResultDTO<IEnumerable<ListarPacienteDTO>>> GetByName(string name);
+
+        Task<ResultDTO<ListarPacienteDTO>> GetByDocument(string document);
+
     }
 }

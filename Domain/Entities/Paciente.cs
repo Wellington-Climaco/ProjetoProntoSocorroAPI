@@ -2,7 +2,6 @@
 using Domain.Validate;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-
 namespace Domain.Entities
 {
     public sealed class Paciente : EntidadeBase
@@ -16,11 +15,10 @@ namespace Domain.Entities
         public EStatusAtendimento StatusAtendimento { get; private set; } = EStatusAtendimento.Triagem;
         public List<string> Notifications = new();
         public bool IsValid { get => Notifications.Count == 0; }
-        
 
         public Paciente()
         {
-            
+
         }
 
         public Paciente(string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial)
@@ -29,18 +27,18 @@ namespace Domain.Entities
             Sobrenome = sobrenome;
             Documento = documento;
             DataNascimento = datanascimento;
-            
-            if(!Enum.IsDefined(typeof(EPreferencial), preferencial))
+
+            if (!Enum.IsDefined(typeof(EPreferencial), preferencial))
                 Notifications.Add("situação preferencial inválida");
-            
+
 
             Preferencial = preferencial;
-           
+
             Validate();
         }
 
-        public Paciente(string nome,string sobrenome,string documento,DateTime datanascimento, EPreferencial preferencial,EStatusPreferencial statusPreferencial)
-        {           
+        public Paciente(string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial, EStatusPreferencial statusPreferencial)
+        {
             Nome = nome;
             Sobrenome = sobrenome;
             Documento = documento;
@@ -55,10 +53,9 @@ namespace Domain.Entities
                 Notifications.Add("situação preferencial inválida");
 
             Validate();
-
         }
 
-        public Paciente(Guid id,string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial, EStatusPreferencial statusPreferencial)
+        public Paciente(Guid id, string nome, string sobrenome, string documento, DateTime datanascimento, EPreferencial preferencial, EStatusPreferencial statusPreferencial)
         {
             if (!Enum.IsDefined(typeof(EStatusPreferencial), StatusPreferencial))
                 Notifications.Add("Status preferencial inválido");
@@ -80,12 +77,11 @@ namespace Domain.Entities
             if (!string.IsNullOrEmpty(documento))
                 Documento = documento;
 
-            if(datanascimento != DateTime.MinValue && datanascimento < DateTime.Today)
+            if (datanascimento != DateTime.MinValue && datanascimento < DateTime.Today)
                 DataNascimento = datanascimento;
 
             if (Enum.IsDefined(typeof(EPreferencial), Preferencial))
                 Preferencial = preferencial;
-          
         }
 
         private void Validate()
@@ -102,20 +98,20 @@ namespace Domain.Entities
             if (Nome.Length > 46)
                 Notifications.Add("Máximo de 46 caracteres para o nome");
 
-            if(Sobrenome.Length > 46)
-                Notifications.Add("Máximo de 46 caracteres para o sobrenome"); 
-            
+            if (Sobrenome.Length > 46)
+                Notifications.Add("Máximo de 46 caracteres para o sobrenome");
+
             if (Documento.Length > 12)
                 Notifications.Add("Documento inválido");
 
-            if(Documento.Length < 9)
-                Notifications.Add("Documento inválido");           
+            if (Documento.Length < 9)
+                Notifications.Add("Documento inválido");
 
             if (DataNascimento >= DateTime.Today)
                 Notifications.Add("Data nascimento Inválida");
 
             if (DataNascimento <= DateTime.MinValue)
-                Notifications.Add("Data nascimento Inválida");           
+                Notifications.Add("Data nascimento Inválida");
         }
 
         public void Encaminhar(EStatusAtendimento area)
@@ -130,7 +126,7 @@ namespace Domain.Entities
             }
         }
 
-        
+
 
 
     }

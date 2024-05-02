@@ -18,6 +18,11 @@ namespace ProntoSocorro.Controllers
             _funcionarioService = funcionarioService;
         }
 
+        /// <summary>
+        /// Registra novo funcionário no sistema (somente admin)
+        /// </summary>
+        /// <param name="funcionarioDTO"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpPost("criar")]
         public async Task<IActionResult> CriarFuncionario([FromBody] FuncionarioDTO funcionarioDTO)
@@ -59,7 +64,11 @@ namespace ProntoSocorro.Controllers
                 return StatusCode(500, "internal server error");
             }
         }
-
+        /// <summary>
+        /// Remove funcionário. (somente admin)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpDelete("remover/{id:guid}")]
         public async Task<IActionResult> RemoverFuncionario([FromRoute] Guid id)
@@ -125,6 +134,10 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        /// <summary>
+        /// Chama o proximo paciente da fila
+        /// </summary>
+        /// <param name="id"></param>
         [Authorize]
         [HttpGet("proximo/{id:guid}")]
         public async Task<IActionResult> ChamarProximoPaciente(Guid id)
@@ -144,6 +157,12 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        /// <summary>
+        /// Dispensa paciente quando atendimento dele acabou
+        /// </summary>
+        /// <param name="idPaciente">id do paciente que esta sendo dispensado</param>
+        /// <param name="idFuncionario"> id do funcionário que esta dispensando</param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin,Clinico,Recepcao")]
         [HttpDelete("dispensar/{idPaciente:guid}/{idFuncionario:guid}")]
         public async Task<IActionResult> DispensarPaciente(Guid idPaciente, Guid idFuncionario)
@@ -167,6 +186,13 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        /// <summary>
+        /// Encaminha paciente pro especialista necessario, triagem/recepção/clinico...
+        /// </summary>
+        /// <param name="idPaciente">id do paciente que esta sendo encaminhado</param>
+        /// <param name="area">área que o paciente será encaminhado, triagem = 1 /recepção = 2/clinico = 3 /ortopedia = 4/enfermaria = 5... </param>
+        /// <param name="idFuncionario">id do funcionário que esta encaminhando</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("Encaminhar/{idPaciente:guid}/{idFuncionario:guid}")]
         public async Task<IActionResult> EncaminharPaciente(Guid idPaciente, int area,Guid idFuncionario)
@@ -190,6 +216,11 @@ namespace ProntoSocorro.Controllers
             }
         }
 
+        /// <summary>
+        /// Muda a área do funcionário (somente admin), triagem = 1 /recepção = 2/clinico = 3 /ortopedia = 4/enfermaria = 5
+        /// </summary>
+        /// <param name="atualizarArea"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [HttpPut("atualizar/area")]
         public async Task<IActionResult> MudarAreaDoFuncionario([FromBody] AtualizarAreaDTO atualizarArea)
