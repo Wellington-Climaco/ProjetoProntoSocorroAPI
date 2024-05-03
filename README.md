@@ -6,6 +6,7 @@
 
 O Sistema conta com os seguintes funcionários : recepção, triagem, clínico, ortopedista, enfermaria e um admin. Onde determinados funcionarios tem limitações de acesso à alguns endpoints
 
+**Motivo da criação do projeto** : Tive a necessidade de ir ao pronto socorro acompanhar uma pessoa, e enquanto estava lá eu e ela conversamos sobre como funcionava o sistema daquele pronto socorro, então eu prestei atenção no fluxo do atendimento e me comprometi a tentar reproduzir um sistema parecido.
 
 ## 🧱 Arquitetura
 
@@ -41,6 +42,15 @@ Camada com as controllers, responsáveis por mostrar nossos endpoints, local ond
 
 ![image](https://github.com/Wellington-Climaco/ProjetoProntoSocorroAPI/assets/142629826/534cbd5b-e001-4397-b0c3-aeb1a9eacde9)
 
+
+
+## Regras de Negócio
+
+Quando houverem pacientes **preferencias** e não preferenciais na fila, a cada 2 pacientes não preferenciais será chamado 1 paciente **preferencial**, independente da posição dele na fila.
+
+Um médico só pode chamar o próximo paciente quando liberar o paciente atual (encaminhando para outro especialista ou dispensando o mesmo).
+
+Um paciente durante atendimento por algum profissional some da lista dos outros funcionarios da mesma area de atendimento, visando evitar confusões com a chamada da mesma pessoa por dois profissionais diferentes.
 
 
 ## ⚙️ Tecnologias e Padrões utilizados
@@ -98,7 +108,9 @@ Se não abrir coloque :  ```/swagger/index.html``` após seu link do localhost. 
 
 ###
 
+## Meu Linkedin
 
+ https://www.linkedin.com/in/wellingtonclimaco/
 
 
 
