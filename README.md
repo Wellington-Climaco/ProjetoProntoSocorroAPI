@@ -37,10 +37,9 @@ Camada que tem a responsabilidade de fazer a inversão de controle, onde registr
 Camada com as controllers, responsáveis por mostrar nossos endpoints, local onde conseguimos interagir com a aplicação.
 
 
-## Ideia de Fluxo para aplicação
+## ♻️ Ideia de Fluxo para aplicação
 
 ![image](https://github.com/Wellington-Climaco/ProjetoProntoSocorroAPI/assets/142629826/534cbd5b-e001-4397-b0c3-aeb1a9eacde9)
-
 
 
 
@@ -52,5 +51,56 @@ Camada com as controllers, responsáveis por mostrar nossos endpoints, local ond
 - Autenticação e autorização
 - Repository Pattern
 - Clean Architecture
+- RESTful API
+- Banco de dados: SQL Server
+
+## ❓ Como executar o projeto
+Para executar a aplicação localmente é necessário:
+
+- Necessário ter o Sql Server instalado, aconselho instalação via Docker, utilizando conteiner do Sql server.
+
+### Inserindo ConnectionString
+
+modifique o valor da chave ```DefaultConnection``` no arquivo ```appsettings.json``` para sua connectionString
+
+```json
+   "ConnectionStrings": {
+   "DefaultConnection": "string de conexão"
+ },
+```
+
+### Execução do Migrations
+
+Com os comandos abaixo você irá criar as tabelas do banco de dados.
+
+Execute os seguintes comandos:
+
+```
+dotnet tool install --global dotnet-ef
+```
+```
+dotnet ef migrations add CriandoDataBase
+```
+
+```
+dotnet ef database update
+```
+
+### Executar a aplicação
+
+Se for executar via terminal, certifique-se de estar dentro do diretório da API e executar
+
+```
+dotnet run
+```
+
+Se não abrir coloque :  ```/swagger/index.html``` após seu link do localhost. Exemplo: **localhost:5041/swagger/index.html**
+
+###
+
+
+
+
+
 
 
