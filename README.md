@@ -1,4 +1,5 @@
 # API - Sistema de Pronto Socorro
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/Wellington-Climaco/ProjetoProntoSocorroAPI/blob/main/LICENSE)
 
 ## 📘 Sobre o Projeto
 
@@ -111,6 +112,11 @@ Se não abrir coloque :  ```/swagger/index.html``` após seu link do localhost. 
 ## Meu Linkedin
 
  https://www.linkedin.com/in/wellingtonclimaco/
+
+## License
+
+- [MIT License](https://github.com/Wellington-Climaco/ProjetoProntoSocorroAPI/blob/main/LICENSE)
+
 
 
 
