@@ -107,9 +107,9 @@ C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.AssemblyInfo.cs
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.csproj.CoreCompileInputs.cache
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.sourcelink.json
-C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.csproj.CopyComplete
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.dll
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\refint\ProntoSocorroApp.Tests.dll
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.pdb
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSocorroApp.Tests.genruntimeconfig.cache
 C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ref\ProntoSocorroApp.Tests.dll
+C:\dev\ProntoSocorroApp\ProntoSocorroApp.Tests\obj\Debug\net8.0\ProntoSo.98065440.Up2Date
